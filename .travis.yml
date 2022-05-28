@@ -1,0 +1,21 @@
+language: node_js
+node_js:
+  - 13
+
+services:
+  - docker
+
+install:
+  - echo 'no installation required'
+
+before_script:
+  - echo 'no pre-script'
+
+script:
+  - docker --version
+  - docker build -t simple-node .
+  - docker tag simple-node orimdominic/simple-node-travis:latest
+
+after_success:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker push orimdominic/simple-node-travis
